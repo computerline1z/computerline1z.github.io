@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-C2XERVB5FE"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-C2XERVB5FE');
+</script>
+		<meta charset="UTF-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+  		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<title>vietsocial.dev</title>
+		<style>
+			* {
+				margin: 0;
+				overflow: hidden;
+			}
+			#canvas {
+				filter: url(#crt-curve); /* Áp dụng hiệu ứng CRT curve qua SVG filter */
+			}
+		</style>
+		<!-- SVG filter cho hiệu ứng CRT curve (self-contained, procedural) -->
+		<svg style="display: none;" xmlns="http://www.w3.org/2000/svg">
+			<defs>
+				<filter id="crt-curve" x="0" y="0" width="100%" height="100%" color-interpolation-filters="sRGB">
+					<!-- Procedural absolute map: Hai gradients blended để tạo bulge/curve -->
+					<g id="abs-map" style="mix-blend-mode: screen;">
+						<rect width="100%" height="100%" fill="black"/>
+						<rect width="100%" height="100%">
+							<defs>
+								<linearGradient id="red-grad" x1="0%" y1="0%" x2="100%" y2="0%">
+									<stop offset="0%" stop-color="rgb(255,0,0)"/>
+									<stop offset="100%" stop-color="rgba(255,0,0,0)"/>
+								</linearGradient>
+							</defs>
+							<fill xlink:href="#red-grad"/>
+						</rect>
+						<rect width="100%" height="100%">
+							<defs>
+								<linearGradient id="blue-grad" x1="0%" y1="0%" x2="0%" y2="100%">
+									<stop offset="0%" stop-color="rgb(0,0,255)"/>
+									<stop offset="100%" stop-color="rgba(0,0,255,0)"/>
+								</linearGradient>
+							</defs>
+							<fill xlink:href="#blue-grad"/>
+						</rect>
+					</g>
+					<feImage result="MAP" xlink:href="#abs-map" x="0" y="0" width="100%" height="100%" preserveAspectRatio="none"/>
+					<feDisplacementMap in="SourceGraphic" in2="MAP" scale="-200" xChannelSelector="R" yChannelSelector="B"/>
+					<!-- Thêm blur nhẹ để mượt mà hơn -->
+					<feGaussianBlur stdDeviation="1"/>
+				</filter>
+			</defs>
+		</svg>
+		<script src="rain.js"></script>
+	</head>
+	<body>
+		<canvas id="canvas"></canvas>
+		<script>
+            document.addEventListener('contextmenu', event => event.preventDefault());
+			const matrixRain = new MatrixRain(
+				element = document.getElementById("canvas"),
+				width = window.innerWidth,
+				height = window.innerHeight,
+				charList = [
+					'0','1','2','3','4','5','6','7','8','9',
+					'A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z',
+					'+','-','*','=','<','>',':','.',
+					'ﾊ','ﾐ','ﾋ','ｰ','ｳ','ｼ','ﾅ','ﾓ','ﾆ','ｻ','ﾜ','ﾂ','ｵ','ﾘ','ｱ','ﾎ','ﾃ','ﾏ','ｹ','ﾒ','ｴ','ｶ','ｷ','ﾑ','ﾕ','ﾗ','ｾ','ﾈ','ｽ','ﾀ','ﾇ','ﾍ'
+				],
+				red = 0, green = 255, blue = 0,
+				randomColors = false,
+				flowRate = 1,
+				fps = 15,
+			);
+			window.addEventListener("resize", () => {
+				matrixRain.setCanvasDimensions(window.innerWidth, window.innerHeight);
+			});
+		</script>
+    <div id="music_list">
+        <audio controls></audio>
+    </div>
+    <script src="music.js"></script>
+	</body>
+</html>
